@@ -72,8 +72,6 @@ Monthly subscription revenue grew from $6,034 (Jan 2024) to $182,725 (Dec 2025),
 
 ![CAC vs LTV (2025 selected)](screenshots/cac_vs_ltv_2025.png)
 
-*2025 screenshot to be added.*
-
 | Cohort year | Customers | Total CAC | Break-even month (cumulative LTV ≥ Total CAC) | Cumulative LTV at break-even | Months from cohort start |
 |---|---|---|---|---|---|
 | 2024 | 2,816 | $501,536.80 | **Dec 2024** | $528,892 (Nov 2024: $435,806) | 12 (Jan–Dec 2024) |
@@ -104,7 +102,7 @@ fitness-subscription-analytics/
 │   ├── cohort_analysis.png
 │   ├── revenue_forecast.png
 │   ├── cac_vs_ltv_2024.png
-│   └── cac_vs_ltv_2025.png   # to be added
+│   └── cac_vs_ltv_2025.png
 └── analysis/            # Python scripts used to verify the cohort, revenue and CAC figures
 ```
 
