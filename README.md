@@ -45,26 +45,26 @@ No missing values in either sheet. Transaction types: Subscription (51,982 rows,
 
 Monthly subscription revenue grew from $6,034 (Jan 2024) to $182,725 (Dec 2025), then dipped to $165,465 in Jan 2026. Forecast settings in Power BI: length 12 months, seasonality 12, 95% confidence interval, ignore last 0.
 
-**Forecast values from Power BI tooltips: pending.** The table below will be filled with the forecast, upper bound and lower bound from the Power BI line-chart tooltips (Ignore last = 0). Until those values are recorded, the cells are left blank.
+The values below are read directly from the Power BI line-chart forecast tooltips (Forecast, Upper bound, Lower bound; 95% confidence interval, Ignore last = 0). The total row is the sum of the 12 monthly values.
 
 | Month | Forecast | Upper bound | Lower bound |
 |---|---|---|---|
-| Feb 2026 |  |  |  |
-| Mar 2026 |  |  |  |
-| Apr 2026 |  |  |  |
-| May 2026 |  |  |  |
-| Jun 2026 |  |  |  |
-| Jul 2026 |  |  |  |
-| Aug 2026 |  |  |  |
-| Sep 2026 |  |  |  |
-| Oct 2026 |  |  |  |
-| Nov 2026 |  |  |  |
-| Dec 2026 |  |  |  |
-| Jan 2027 |  |  |  |
-| **Total Feb 2026 – Jan 2027** |  |  |  |
+| Feb 2026 | $178,248 | $191,650 | $164,846 |
+| Mar 2026 | $186,133 | $202,894 | $169,372 |
+| Apr 2026 | $194,569 | $214,121 | $175,018 |
+| May 2026 | $202,828 | $224,820 | $180,836 |
+| Jun 2026 | $215,479 | $239,667 | $191,292 |
+| Jul 2026 | $222,543 | $248,744 | $196,343 |
+| Aug 2026 | $230,046 | $258,116 | $201,976 |
+| Sep 2026 | $238,054 | $267,877 | $208,231 |
+| Oct 2026 | $246,769 | $278,248 | $215,290 |
+| Nov 2026 | $256,385 | $289,437 | $223,333 |
+| Dec 2026 | $252,420 | $286,974 | $217,866 |
+| Jan 2027 | $259,124 | $295,118 | $223,130 |
+| **Total Feb 2026 – Jan 2027** | **$2,682,598** | $2,997,666 | $2,367,533 |
 
-- The 12-month subscription revenue forecast will be added from the Power BI tooltips once those values are recorded. The confidence interval typically widens in later months.
-- **Seasonality:** there is **no clear evidence of seasonality** in subscription revenue. It rose every month for two years. The only decline (Dec 2025 → Jan 2026, −$17,260) happened because there were no new customers in Jan 2026 while existing customers kept churning. The same month a year earlier had no dip (Dec 2024 $62,581 → Jan 2025 $69,267). With seasonality set to 12 and just over two years of history, the model repeats that single January dip in Jan 2027, so it should not be read as a real seasonal pattern. Add-on revenue (Annual Upgrade, Fitness Challenge, Nutrition Plan, Personal Training) does spike every November–December, but it is not part of subscription revenue.
+- Power BI forecasts **$2,682,598** in subscription revenue over the next 12 months (Feb 2026 – Jan 2027), with a 95% range of $2,367,533 to $2,997,666. Monthly revenue is expected to grow from $178,248 (Feb 2026) to $259,124 (Jan 2027). The confidence band widens over time, from ±$13,402 in Feb 2026 to ±$35,994 in Jan 2027, so later months are less certain.
+- **Seasonality:** there is **no clear evidence of seasonality** in subscription revenue. It rose every month for two years. The only decline (Dec 2025 → Jan 2026, −$17,260) happened because there were no new customers in Jan 2026 while existing customers kept churning. The same month a year earlier had no dip (Dec 2024 $62,581 → Jan 2025 $69,267). With seasonality set to 12 and just over two years of history, the model carries that single dip forward as a small drop in Dec 2026 ($256,385 → $252,420), so it should not be read as a real seasonal pattern. Add-on revenue (Annual Upgrade, Fitness Challenge, Nutrition Plan, Personal Training) does spike every November–December, but it is not part of subscription revenue.
 
 ## 3. CAC vs. LTV: when do the 2024 and 2025 cohorts break even?
 
@@ -85,7 +85,7 @@ Monthly subscription revenue grew from $6,034 (Jan 2024) to $182,725 (Dec 2025),
 ## Executive summary
 
 1. **Retention:** the critical drop-off is the third month. Half of every cohort is gone by month 3 (78.0% → 50.0%). Retention offers, onboarding check-ins or plan incentives timed around the second to third billing cycle are the biggest lever.
-2. **Revenue:** subscription revenue is growing steadily without real seasonality. The 12-month Power BI forecast values are pending tooltip transcription. The forecast assumes new-customer acquisition continues.
+2. **Revenue:** subscription revenue is growing steadily without real seasonality. Power BI forecasts $2,682,598 over the next 12 months (95% range $2,367,533 – $2,997,666), reaching about $259,124 per month by Jan 2027. The forecast assumes new-customer acquisition continues.
 3. **Payback:** both the 2024 and 2025 cohorts recover their CAC within 12 months (by December of their signup year). Individual customers need about 4–5 months on average to pay back, so the many customers who cancel after 3 months (average cumulative LTV of $131.32 by month 2 for the 2024 cohort) do not cover their acquisition cost. Fixing month-3 churn directly improves payback. Growth is sustainable as long as acquisition cost stays near $179 per customer and early churn is reduced.
 
 ## Repository structure
@@ -108,6 +108,6 @@ fitness-subscription-analytics/
 
 ## Notes on method
 
-- The forecast table will be filled from the Power BI chart tooltips (Ignore last = 0). It is not taken from a Python model.
+- The forecast table comes from the Power BI chart tooltips (Ignore last = 0). It is not taken from a Python model.
 - The cohort, revenue and CAC/LTV figures are exact aggregates of the dataset, and the Power BI measures reproduce them. The 2024 and 2025 break-even results above match the Power BI report (2024 Total CAC $501,536.80, break-even Dec 2024; 2025 Total CAC $1,162,459.11, break-even Dec 2025).
 - To verify the cohort, revenue and CAC/LTV figures, run `pip install pandas openpyxl matplotlib`, then run the scripts in `analysis/` from inside that folder.
