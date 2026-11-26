@@ -43,22 +43,36 @@ No missing values in either sheet. Transaction types: Subscription (51,982 rows,
 
 ![Revenue Forecast](screenshots/revenue_forecast.png)
 
-Monthly subscription revenue grew from $6,034 (Jan 2024) to $182,725 (Dec 2025), then dipped to $165,465 in Jan 2026. Forecast settings: length 12 months, seasonality 12, 95% confidence interval, ignore last 0.
+Monthly subscription revenue grew from $6,034 (Jan 2024) to $182,725 (Dec 2025), then dipped to $165,465 in Jan 2026. Forecast settings in Power BI: length 12 months, seasonality 12, 95% confidence interval, ignore last 0.
 
-| Month | Forecast | 95% CI |
-|---|---|---|
-| Feb 2026 | $177,782 | $162,679 – $193,281 |
-| Jun 2026 | $209,698 | $179,528 – $252,815 |
-| Dec 2026 | $255,777 | $196,240 – $368,914 |
-| Jan 2027 | $249,437 | $184,857 – $377,330 |
-| **Total Feb 2026 – Jan 2027** | **$2,636,681** | |
+**Forecast values from Power BI tooltips: pending.** The table below will be filled with the forecast, upper bound and lower bound from the Power BI line-chart tooltips (Ignore last = 0). Until those values are recorded, the cells are left blank.
 
-- **Expected subscription revenue over the next 12 months is about $2.64M**, rising from about $178K per month to about $250K per month. The confidence interval widens quickly, so the later months are uncertain.
+| Month | Forecast | Upper bound | Lower bound |
+|---|---|---|---|
+| Feb 2026 |  |  |  |
+| Mar 2026 |  |  |  |
+| Apr 2026 |  |  |  |
+| May 2026 |  |  |  |
+| Jun 2026 |  |  |  |
+| Jul 2026 |  |  |  |
+| Aug 2026 |  |  |  |
+| Sep 2026 |  |  |  |
+| Oct 2026 |  |  |  |
+| Nov 2026 |  |  |  |
+| Dec 2026 |  |  |  |
+| Jan 2027 |  |  |  |
+| **Total Feb 2026 – Jan 2027** |  |  |  |
+
+- The 12-month subscription revenue forecast will be added from the Power BI tooltips once those values are recorded. The confidence interval typically widens in later months.
 - **Seasonality:** there is **no clear evidence of seasonality** in subscription revenue. It rose every month for two years. The only decline (Dec 2025 → Jan 2026, −$17,260) happened because there were no new customers in Jan 2026 while existing customers kept churning. The same month a year earlier had no dip (Dec 2024 $62,581 → Jan 2025 $69,267). With seasonality set to 12 and just over two years of history, the model repeats that single January dip in Jan 2027, so it should not be read as a real seasonal pattern. Add-on revenue (Annual Upgrade, Fitness Challenge, Nutrition Plan, Personal Training) does spike every November–December, but it is not part of subscription revenue.
 
 ## 3. CAC vs. LTV: when do the 2024 and 2025 cohorts break even?
 
-![CAC vs LTV](screenshots/cac_vs_ltv.png)
+![CAC vs LTV (2024 selected)](screenshots/cac_vs_ltv_2024.png)
+
+![CAC vs LTV (2025 selected)](screenshots/cac_vs_ltv_2025.png)
+
+*2025 screenshot to be added.*
 
 | Cohort year | Customers | Total CAC | Break-even month (cumulative LTV ≥ Total CAC) | Cumulative LTV at break-even | Months from cohort start |
 |---|---|---|---|---|---|
@@ -73,7 +87,7 @@ Monthly subscription revenue grew from $6,034 (Jan 2024) to $182,725 (Dec 2025),
 ## Executive summary
 
 1. **Retention:** the critical drop-off is the third month. Half of every cohort is gone by month 3 (78.0% → 50.0%). Retention offers, onboarding check-ins or plan incentives timed around the second to third billing cycle are the biggest lever.
-2. **Revenue:** subscription revenue is growing steadily without real seasonality. The forecast is about $2.64M over Feb 2026 – Jan 2027, but it assumes new-customer acquisition continues.
+2. **Revenue:** subscription revenue is growing steadily without real seasonality. The 12-month Power BI forecast values are pending tooltip transcription. The forecast assumes new-customer acquisition continues.
 3. **Payback:** both the 2024 and 2025 cohorts recover their CAC within 12 months (by December of their signup year). Individual customers need about 4–5 months on average to pay back, so the many customers who cancel after 3 months (average cumulative LTV of $131.32 by month 2 for the 2024 cohort) do not cover their acquisition cost. Fixing month-3 churn directly improves payback. Growth is sustainable as long as acquisition cost stays near $179 per customer and early churn is reduced.
 
 ## Repository structure
@@ -81,19 +95,21 @@ Monthly subscription revenue grew from $6,034 (Jan 2024) to $182,725 (Dec 2025),
 ```
 fitness-subscription-analytics/
 ├── README.md
+├── POWER_BI_BUILD_GUIDE.md
 ├── report.pbix
 ├── data/
 │   └── Fitness_Subscriptions_Dataset.xlsx
 ├── screenshots/
+│   ├── data_model.png
 │   ├── cohort_analysis.png
 │   ├── revenue_forecast.png
-│   ├── cac_vs_ltv.png
-│   └── data_model.png
-└── analysis/            # Python scripts used to verify every number above
+│   ├── cac_vs_ltv_2024.png
+│   └── cac_vs_ltv_2025.png   # to be added
+└── analysis/            # Python scripts used to verify the cohort, revenue and CAC figures
 ```
 
 ## Notes on method
 
-- The forecast numbers above come from an additive Holt-Winters (exponential smoothing) model with seasonality 12 and a 95% bootstrap interval (5,000 simulations, random_state 42) (`analysis/01_compute_metrics.py`). This mirrors Power BI's built-in forecast, which also uses exponential smoothing, but Power BI's exact values may differ slightly.
-- The cohort, revenue and CAC/LTV figures are exact aggregates of the dataset, and the Power BI measures reproduce them.
-- To reproduce the numbers, run `pip install pandas openpyxl statsmodels matplotlib`, then run the scripts in `analysis/` from inside that folder.
+- The forecast table will be filled from the Power BI chart tooltips (Ignore last = 0). It is not taken from a Python model.
+- The cohort, revenue and CAC/LTV figures are exact aggregates of the dataset, and the Power BI measures reproduce them. The 2024 and 2025 break-even results above match the Power BI report (2024 Total CAC $501,536.80, break-even Dec 2024; 2025 Total CAC $1,162,459.11, break-even Dec 2025).
+- To verify the cohort, revenue and CAC/LTV figures, run `pip install pandas openpyxl matplotlib`, then run the scripts in `analysis/` from inside that folder.
